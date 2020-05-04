@@ -1,8 +1,12 @@
 import React from 'react';
 import { View, Text, Image, Button, StyleSheet } from 'react-native'
-import { useSelector } from 'react-redux'
+import { useSelector ,useDispatch } from 'react-redux'
 import { ScrollView } from 'react-native-gesture-handler';
-import Colors from '../../constants/Color'
+
+
+import Colors from '../../constants/Color';
+import * as cartActions from '../../store/actions/cart'
+
 
 const ProductDetailScreen = props => {
     const productId = props.navigation.getParam('productId');
@@ -10,6 +14,7 @@ const ProductDetailScreen = props => {
         prod => prod.id === productId
     ))
 
+    const dispatch = useDispatch();
 
     return (
         <ScrollView style ={styles.screen}>
@@ -22,7 +27,9 @@ const ProductDetailScreen = props => {
                 <Button
                     color={Colors.primary}
                     title="Add to Cart"
-                    onPress={() => {}}
+                    onPress={() => {
+                        dispatch(cartActions.addToCart(selectedProduct))
+                    }}
                 />
             </View>
             <Text style={styles.price} >
