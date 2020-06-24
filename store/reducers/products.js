@@ -1,5 +1,9 @@
 import PRODUCTS from '../../data/dummy-data'
-import { DELETE_PRODUCT, UPDATE_PRODUCT, CREATE_PRODUCT } from '../actions/products';
+import { DELETE_PRODUCT, 
+         UPDATE_PRODUCT, 
+         CREATE_PRODUCT,
+         SET_PRODUCTS
+        } from '../actions/products';
 import Product from '../../models/product';
 
 const initialState = {
@@ -10,6 +14,11 @@ const initialState = {
 
 export default (state = initialState, action) => {
     switch (action.type) {
+        case SET_PRODUCTS:
+            return{
+                availableProducts: action.products,
+                userProducts: action.products.filter(prod => prod.ownerId === 'u1')
+            }
 
         //Delete Product
         case DELETE_PRODUCT:
@@ -22,10 +31,13 @@ export default (state = initialState, action) => {
                     product => product.id !== action.pid
                 )
             }
+            
 
             //Update Product
         case UPDATE_PRODUCT:
-            const productIndex = state.userProducts.findIndex(prod => prod.id === action.pid);
+            const productIndex = state.userProducts.findIndex(
+                prod => prod.id === action.pid
+            );
             const updatedProduct = new Product(
                 action.pid , 
                 state.userProducts[productIndex].ownerId,
@@ -33,11 +45,11 @@ export default (state = initialState, action) => {
                 action.productData.imageUrl,
                 action.productData.description,
                 state.userProducts[productIndex].price
-            )
+            );
             const updatedUserProducts = [ ...state.userProducts];
             updatedUserProducts[productIndex] = updatedProduct;
-            const availableProductIndex = state.availableProducts.filter(
-                product => product.id !== action.pid
+            const availableProductIndex = state.availableProducts.findIndex(
+                prod => prod.id !== action.pid
             )
             const updatedAvailableProducts = [...state.availableProducts];
             updatedAvailableProducts[availableProductIndex] = updatedProduct;
@@ -50,7 +62,7 @@ export default (state = initialState, action) => {
             //Create Product
             case CREATE_PRODUCT: 
             const newProduct= new Product(
-                    new Date().toString(),
+                    action.productData.id,
                     'u1',
                     action.productData.title,
                     action.productData.imageUrl,
