@@ -1,7 +1,7 @@
 import React from 'react';
-import {  createAppContainer } from 'react-navigation';
-import { createDrawerNavigator } from 'react-navigation-drawer';
-import { Platform } from 'react-native';
+import {  createAppContainer , createSwitchNavigator} from 'react-navigation';
+import { createDrawerNavigator ,DrawerItems } from 'react-navigation-drawer';
+import { Platform,SafeAreaView,Button , View} from 'react-native';
 import { createStackNavigator } from 'react-navigation-stack';
 
 import ProductsOverviewScreen from '../screens/shop/ProductsOverviewScreen';
@@ -10,10 +10,13 @@ import CartScreen from '../screens/shop/CartScreen'
 import OrdersScreen from '../screens/shop/OrdersScreen'
 import UserProductsScreen from '../screens/user/UserProductsScreen'
 import EditProductScreen from '../screens/user/EditProductScreen';
+import AuthScreen from "../screens/user/AuthScreen"
+import StartupScreen from '../screens/StartupScreen';
 
 
 import Colors from '../constants/Color'
 import { Ionicons } from '@expo/vector-icons';
+import StartupScrenn from '../screens/StartupScreen';
 
 const defaultNavOptions= {
     headerStyle: {
@@ -91,9 +94,39 @@ const ShopNavigator = createDrawerNavigator({
 },{
   contentOptions :{
     activeTintColor : Colors.primary
+  },
+  contentComponent: props =>{
+    return (
+      <View style ={{ flex : 1   }}>
+        <SafeAreaView forceInset ={{ top : 'always ' , horizontal : 'never'}}>
+          <DrawerItems   {...props} /> 
+            
+            <Button  
+              title ="Logout"
+              color = { Colors.primary}
+              onPress = { () => {}}
+            
+            />
+        </SafeAreaView>
+
+      </View>
+    )
+
   }
+
+})
+
+const AuthNavigator = createStackNavigator({
+  Auth : AuthScreen
+},{
+  defaultNavigationOptions : defaultNavOptions
+})
+
+const MainNavigator = createSwitchNavigator({
+  Startup : StartupScrenn,
+  Auth: AuthNavigator,
+  Shop: ShopNavigator
 })
 
 
-
-export default createAppContainer(ShopNavigator);
+export default createAppContainer(MainNavigator);

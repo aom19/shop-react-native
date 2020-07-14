@@ -1,5 +1,5 @@
 import React,{ useEffect ,useState} from 'react';
-import { StyleSheet,FlatList, View ,ActivityIndicator} from 'react-native';
+import { StyleSheet,FlatList, View,Text ,ActivityIndicator} from 'react-native';
 import { useSelector,useDispatch} from 'react-redux'
 import { HeaderButtons ,Item} from 'react-navigation-header-buttons'
 
@@ -29,6 +29,15 @@ const OrdersScreen = props =>{
                     color={Colors.primary}
                 />
             </View>)
+    }
+    if ( orders.length === 0 ) {
+        return (
+            <View style = {{flex : 1, justifyContent : 'center', alignItems : 'center'}}>
+                <Text> 
+                    No order  found , maybe start ordering something ?
+                </Text>
+            </View>
+        )
     }
 
 
