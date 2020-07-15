@@ -1,21 +1,20 @@
-import React,{ useEffect, useCallback,useReducer, useState} from 'react';
+import React, { useState, useEffect, useCallback, useReducer } from 'react';
 import {
-   StyleSheet,
-   View,
-   KeyboardAvoidingView,
-    ActivityIndicator ,
-    Alert, 
-    ScrollView,
-    Platform 
-  } from 'react-native';
-import { HeaderButtons ,Item} from 'react-navigation-header-buttons'
-import {useSelector,useDispatch} from 'react-redux';
+  View,
+  ScrollView,
+  StyleSheet,
+  Platform,
+  Alert,
+  KeyboardAvoidingView,
+  ActivityIndicator
+} from 'react-native';
+import { HeaderButtons, Item } from 'react-navigation-header-buttons';
+import { useSelector, useDispatch } from 'react-redux';
 
-import * as productsActions from '../../store/actions/products'
 import HeaderButton from '../../components/UI/HeaderButton';
+import * as productsActions from '../../store/actions/products';
 import Input from '../../components/UI/Input';
-import Colors from '../../constants/Color'
-
+import Colors from '../../constants/Color';
 
 const FORM_INPUT_UPDATE = 'FORM_INPUT_UPDATE';
 
@@ -43,9 +42,8 @@ const formReducer = (state, action) => {
 };
 
 const EditProductScreen = props => {
-  const [isLoading , setIsLoading] = useState(false);
-  const [error , setError] = useState();
-
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState();
 
   const prodId = props.navigation.getParam('productId');
   const editedProduct = useSelector(state =>
@@ -69,8 +67,12 @@ const EditProductScreen = props => {
     formIsValid: editedProduct ? true : false
   });
 
-  
-  
+  useEffect(() => {
+    if (error) {
+      Alert.alert('An error occurred!', error, [{ text: 'Okay' }]);
+    }
+  }, [error]);
+
   const submitHandler = useCallback(async () => {
     if (!formState.formIsValid) {
       Alert.alert('Wrong input!', 'Please check the errors in the form.', [
@@ -80,7 +82,7 @@ const EditProductScreen = props => {
     }
     setError(null);
     setIsLoading(true);
-    try{
+    try {
       if (editedProduct) {
         await dispatch(
           productsActions.updateProduct(
@@ -101,12 +103,12 @@ const EditProductScreen = props => {
         );
       }
       props.navigation.goBack();
-    }catch(err){
+    } catch (err) {
       setError(err.message);
     }
-    
+
     setIsLoading(false);
-   
+    
   }, [dispatch, prodId, formState]);
 
   useEffect(() => {
@@ -124,22 +126,14 @@ const EditProductScreen = props => {
     },
     [dispatchFormState]
   );
-  if(isLoading){
-    <View style={styles.spinner}>
-      <ActivityIndicator
-        size= 'large'
-        color={Colors.primary}
-      />
 
-    </View>
+  if (isLoading) {
+    return (
+      <View style={styles.centered}>
+        <ActivityIndicator size="large" color={Colors.primary} />
+      </View>
+    );
   }
-//Alert on the screen if an error apear;
-  useEffect(() => {
-    if( error ){
-      Alert.alert('An error occurred',error,[{text : 'Ok'}])
-      console.log(error)
-    }
-  },[error])
 
   return (
     <KeyboardAvoidingView
@@ -212,7 +206,7 @@ EditProductScreen.navigationOptions = navData => {
     headerTitle: navData.navigation.getParam('productId')
       ? 'Edit Product'
       : 'Add Product',
-    headerRight:() => (
+    headerRight: () =>(
       <HeaderButtons HeaderButtonComponent={HeaderButton}>
         <Item
           title="Save"
@@ -230,10 +224,10 @@ const styles = StyleSheet.create({
   form: {
     margin: 20
   },
-  spinner:{
-    flex:1,
-    alignItems:'center',
-    justifyContent:'center'
+  centered: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center'
   }
 });
 
