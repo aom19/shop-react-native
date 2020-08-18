@@ -9,7 +9,7 @@ import {
 } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux';
 
-import Colors from '../../constants/Color';
+import Colors from '../../constants/Colors';
 import CartItem from '../../components/shop/CartItem';
 import Card from '../../components/UI/Card';
 import * as cartActions from '../../store/actions/cart';
@@ -81,7 +81,7 @@ const CartScreen = props => {
   );
 };
 
-CartScreen.navigationOptions = {
+export const screenOptions = {
   headerTitle: 'Your Cart'
 };
 

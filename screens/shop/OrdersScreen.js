@@ -13,7 +13,7 @@ import { HeaderButtons, Item } from 'react-navigation-header-buttons';
 import HeaderButton from '../../components/UI/HeaderButton';
 import OrderItem from '../../components/shop/OrderItem';
 import * as ordersActions from '../../store/actions/orders';
-import Colors from '../../constants/Color';
+import Colors from '../../constants/Colors';
 
 const OrdersScreen = props => {
   const [isLoading, setIsLoading] = useState(false);
@@ -59,7 +59,7 @@ const OrdersScreen = props => {
   );
 };
 
-OrdersScreen.navigationOptions = navData => {
+export const screenOptions = navData => {
   return {
     headerTitle: 'Your Orders',
     headerLeft: () => (

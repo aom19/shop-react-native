@@ -69,7 +69,7 @@ export const createProduct = (title, description, imageUrl, price) => {
     const token = getState().auth.token;
     const userId = getState().auth.userId;
     const response = await fetch(
-      `https://shop-react-a00cc.firebaseio.com/products.json?auth=${token}`,
+      `https://shop-react-a00cc.firebaseio.com//products.json?auth=${token}`,
       {
         method: 'POST',
         headers: {
@@ -105,7 +105,7 @@ export const updateProduct = (id, title, description, imageUrl) => {
   return async (dispatch, getState) => {
     const token = getState().auth.token;
     const response = await fetch(
-      `https://shop-react-a00cc.firebaseio.com/products/${id}.json?auth=${token}`,
+      `https://shop-react-a00cc.firebaseio.com/${id}.json?auth=${token}`,
       {
         method: 'PATCH',
         headers: {

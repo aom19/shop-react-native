@@ -15,7 +15,7 @@ import HeaderButton from '../../components/UI/HeaderButton';
 import ProductItem from '../../components/shop/ProductItem';
 import * as cartActions from '../../store/actions/cart';
 import * as productsActions from '../../store/actions/products';
-import Colors from '../../constants/Color';
+import Colors from '../../constants/Colors';
 
 const ProductsOverviewScreen = props => {
   const [isLoading, setIsLoading] = useState(false);
@@ -36,13 +36,10 @@ const ProductsOverviewScreen = props => {
   }, [dispatch, setIsLoading, setError]);
 
   useEffect(() => {
-    const willFocusSub = props.navigation.addListener(
-      'willFocus',
-      loadProducts
-    );
+    const unsubscribe = props.navigation.addListener('focus', loadProducts);
 
     return () => {
-      willFocusSub.remove();
+      unsubscribe();
     };
   }, [loadProducts]);
 
@@ -124,7 +121,7 @@ const ProductsOverviewScreen = props => {
   );
 };
 
-ProductsOverviewScreen.navigationOptions = navData => {
+export const screenOptions = navData => {
   return {
     headerTitle: 'All Products',
     headerLeft: () => (
@@ -138,7 +135,7 @@ ProductsOverviewScreen.navigationOptions = navData => {
         />
       </HeaderButtons>
     ),
-    headerRight:() => (
+    headerRight: () => (
       <HeaderButtons HeaderButtonComponent={HeaderButton}>
         <Item
           title="Cart"
