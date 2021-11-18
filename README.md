@@ -23,9 +23,10 @@ npm install
 npm start
 
 Choose which platform to run
-<img width="1116" alt="Screen Shot 2021-11-18 at 6 04 37 PM" src="https://user-images.githubusercontent.com/39848284/142451720-3b9178d1-9c25-42db-b2cb-a1ab7754b2c5.png">
+
 
 ```
+<img width="1116" alt="Screen Shot 2021-11-18 at 6 04 37 PM" src="https://user-images.githubusercontent.com/39848284/142451720-3b9178d1-9c25-42db-b2cb-a1ab7754b2c5.png">
 
 ## Screen Shots
 ### Auth Screen
